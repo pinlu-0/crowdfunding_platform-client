@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="RealnameAuthentication" name="RealnameAuthentication" isExecutable="true">
+    <startEvent id="sid-2d046990-d278-4bc9-ab2a-2d2dcbc25aca"/>
+    <serviceTask activiti:type="mail" id="sid-0b237a72-40f7-469d-be36-d7233fdddd85">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression>${userName}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string>15660129782@163.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string>实名认证审核申请</activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:expression>&lt;h1&gt;您好！${userName}，您的验证码是：${code}&lt;/h1&gt;</activiti:expression>
+          <activiti:string>vvv</activiti:string>
+        </activiti:field>
+        <activiti:field name="charset">
+          <activiti:string>utf-8</activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string>aaa</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-5234f30f-ccfe-46ba-b009-2b041479a470" sourceRef="sid-2d046990-d278-4bc9-ab2a-2d2dcbc25aca" targetRef="sid-0b237a72-40f7-469d-be36-d7233fdddd85"/>
+    <userTask id="sid-0a0928e4-a63e-46d6-bce9-7240594c96a0"/>
+    <sequenceFlow id="sid-bf60e361-640c-4e5c-a9c7-14d615dfc687" sourceRef="sid-0b237a72-40f7-469d-be36-d7233fdddd85" targetRef="sid-0a0928e4-a63e-46d6-bce9-7240594c96a0"/>
+    <userTask id="sid-150cbc47-ae12-4c4a-b24f-4db10dc4f70b"/>
+    <sequenceFlow id="sid-9e4c9a1b-d34e-4412-8712-93240a9bc58b" sourceRef="sid-0a0928e4-a63e-46d6-bce9-7240594c96a0" targetRef="sid-150cbc47-ae12-4c4a-b24f-4db10dc4f70b"/>
+    <endEvent id="sid-fcc170b3-5714-4190-8c73-a332dd254c87"/>
+    <sequenceFlow id="sid-273229de-7e17-4ec6-ba16-2cc896bd403d" sourceRef="sid-150cbc47-ae12-4c4a-b24f-4db10dc4f70b" targetRef="sid-fcc170b3-5714-4190-8c73-a332dd254c87"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_RealnameAuthentication">
+    <bpmndi:BPMNPlane bpmnElement="RealnameAuthentication" id="BPMNPlane_RealnameAuthentication">
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-de4d8db3-6af1-4ca2-b128-92f54f5bb584" bpmnElement="sid-2d046990-d278-4bc9-ab2a-2d2dcbc25aca">
+        <omgdc:Bounds x="-161.27245" y="-33.75" width="30.0" height="30.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-e6a2a8f6-0cae-4529-b70f-7f1eb67a5220" bpmnElement="sid-0b237a72-40f7-469d-be36-d7233fdddd85">
+        <omgdc:Bounds x="-100.0" y="-58.75" width="100.0" height="80.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-8cb58c32-bab5-43ad-b1f9-24632964f2ee" bpmnElement="sid-5234f30f-ccfe-46ba-b009-2b041479a470">
+        <omgdi:waypoint x="-131.27245" y="-18.75"/>
+        <omgdi:waypoint x="-100.0" y="-18.75"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-c13188e1-a2fd-4664-b4cf-75d05ab00c21" bpmnElement="sid-0a0928e4-a63e-46d6-bce9-7240594c96a0">
+        <omgdc:Bounds x="18.5" y="-58.75" width="100.0" height="80.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-d9025ae2-ce90-4d72-a119-3a8e90c444cb" bpmnElement="sid-bf60e361-640c-4e5c-a9c7-14d615dfc687">
+        <omgdi:waypoint x="0.0" y="-18.75"/>
+        <omgdi:waypoint x="18.5" y="-18.75"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-1f6d8bc7-bd1e-4c0a-8a4c-30ad2a434dbe" bpmnElement="sid-150cbc47-ae12-4c4a-b24f-4db10dc4f70b">
+        <omgdc:Bounds x="142.56783" y="-58.75" width="100.0" height="80.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-38f4be5c-b8b6-4eef-b00f-f4f0796f40a2" bpmnElement="sid-9e4c9a1b-d34e-4412-8712-93240a9bc58b">
+        <omgdi:waypoint x="118.5" y="-18.75"/>
+        <omgdi:waypoint x="142.56783" y="-18.75"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-9785cf05-a6d0-4ba7-88c1-a7fd965735fc" bpmnElement="sid-fcc170b3-5714-4190-8c73-a332dd254c87">
+        <omgdc:Bounds x="270.582" y="-33.75" width="30.0" height="30.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-2eda2f1a-4a96-4e57-883b-9e817ae6dd2a" bpmnElement="sid-273229de-7e17-4ec6-ba16-2cc896bd403d">
+        <omgdi:waypoint x="242.56783" y="-18.75"/>
+        <omgdi:waypoint x="270.582" y="-18.75"/>
+      </bpmdi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

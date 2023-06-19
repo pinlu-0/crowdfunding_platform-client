@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 引入公共头部 -->
+<head th:replace="common/js_file :: head(~{::title})"></head>
+<link rel="stylesheet" href="css/theme.css">
+<title>个人中心</title>
+
+<!-- 引入公共css样式 -->
+<style th:replace="common/css_file :: style"></style>
+<body>
+
+<!-- 引入会员中心的navbar -->
+<div th:replace="common/navbar :: membercenternavbar"></div>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-sm-3 col-md-3 column">
+
+            <!-- 引入公共的authStatus状态显示 -->
+            <div class="row" th:replace="common/auth_status :: authStatus"></div>
+
+
+            <!--  引入资产总览与我的众筹 -->
+            <div class="list-group" th:replace="~{common/auth_status :: synopsisAndcrow(active='c')}"></div>
+
+        </div>
+        <div class="col-sm-9 col-md-9 column">
+            <ul id="myTab" style="" class="nav nav-pills" role="tablist">
+                <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab" aria-controls="home"
+                                                          aria-expanded="true">我的众筹</a></li>
+                <li role="presentation"><a href="#profile">众筹资产</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content" style="margin-top:10px;">
+                <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+
+                    <ul class="nav nav-tabs myTab1">
+                        <li role="presentation" class="active"><a id="I_support" href="#support">我支持的</a></li>
+                        <li role="presentation"><a href="#attension">我关注的</a></li>
+                        <li role="presentation"><a href="#add">我发起的</a></li>
+                        <li class=" pull-right">
+                            <button type="button" class="btn btn-warning"
+                                    onclick="window.location.href='http://localhost/project/agree/protocol/page.html'">
+                                发起众筹
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content myTab1" style="margin-top:10px;">
+                        <div role="tabpanel" class="tab-pane fade active in" id="support" aria-labelledby="home-tab">
+                            <div class="container-fluid">
+                                <div class="row clearfix">
+                                    <div class="col-md-12 column">
+                                        <span class="label label-warning">全部</span> <span class="label"
+                                                                                          style="color:#000;">已支付</span>
+                                        <span class="label " style="color:#000;">未支付</span>
+                                    </div>
+                                    <div class="col-md-12 column" style="margin-top:10px;padding:0;">
+                                        <table class="table table-bordered" style="text-align:center;">
+                                            <thead>
+                                            <tr style="background-color:#ddd;">
+                                                <td>项目信息</td>
+                                                <td width="90">支持日期</td>
+                                                <td width="120">支持金额（元）</td>
+                                                <td width="80">回报数量</td>
+                                                <td width="80">交易状态</td>
+                                                <td width="120">操作</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="support_tbody">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="attension" aria-labelledby="attension-tab">
+                            <div class="container-fluid">
+                                <div class="row clearfix">
+                                    <div class="col-md-12 column" style="padding:0;">
+                                        <table class="table table-bordered" style="text-align:center;">
+                                            <thead>
+                                            <tr style="background-color:#ddd;">
+                                                <td>项目信息</td>
+                                                <td width="120">支持人数</td>
+                                                <td width="120">关注人数</td>
+                                                <td width="120">操作</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td style="vertical-align:middle;">
+                                                    <div class="thumbnail">
+                                                        <div class="caption">
+                                                            <p>
+                                                                BAVOSN便携折叠移动电源台灯
+                                                            </p>
+                                                            <p>
+                                                                <i class="glyphicon glyphicon-jpy"></i> 已筹集 1000.0元
+                                                            </p>
+                                                            <p>
+                                                            <div style="float:left;"><i
+                                                                    class="glyphicon glyphicon-screenshot"
+                                                                    title="目标金额"></i> 已完成 100%
+                                                            </div>
+                                                            <div style="float:right;"><i
+                                                                    class="glyphicon glyphicon-calendar"></i> 剩余2天
+                                                            </div>
+                                                            </p>
+                                                            <br>
+                                                            <div class="progress" style="margin-bottom: 4px;">
+                                                                <div class="progress-bar progress-bar-success"
+                                                                     role="progressbar" aria-valuenow="40"
+                                                                     aria-valuemin="0" aria-valuemax="100"
+                                                                     style="width: 40%">
+                                                                    <span>众筹中</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle;">1</td>
+                                                <td style="vertical-align:middle;">1</td>
+                                                <td style="vertical-align:middle;">
+                                                    <div class="btn-group-vertical" role="group"
+                                                         aria-label="Vertical button group">
+                                                        <button type="button" class="btn btn-default">取消关注</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade  " id="add" aria-labelledby="add-tab">
+                            <div class="container-fluid">
+                                <div class="row clearfix">
+                                    <div class="col-md-12 column">
+                                        <span class="label label-warning">全部</span> <span class="label"
+                                                                                          style="color:#000;">众筹中</span>
+                                        <span class="label " style="color:#000;">众筹成功</span> <span class="label "
+                                                                                                   style="color:#000;">众筹失败</span>
+                                    </div>
+                                    <div class="col-md-12 column" style="padding:0;margin-top:10px;">
+                                        <table class="table table-bordered" style="text-align:center;">
+                                            <thead>
+                                            <tr style="background-color:#ddd;">
+                                                <td>项目信息</td>
+                                                <td width="120">募集金额（元）</td>
+                                                <td width="80">当前状态</td>
+                                                <td width="120">操作</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td style="vertical-align:middle;">
+                                                    <div class="thumbnail">
+                                                        <div class="caption">
+                                                            <p>
+                                                                BAVOSN便携折叠移动电源台灯
+                                                            </p>
+                                                            <p>
+                                                            <div style="float:left;"><i
+                                                                    class="glyphicon glyphicon-screenshot"
+                                                                    title="目标金额"></i> 已完成 100%
+                                                            </div>
+                                                            <div style="float:right;"><i title="截至日期"
+                                                                                         class="glyphicon glyphicon-calendar"></i>
+                                                                剩余8天
+                                                            </div>
+                                                            </p>
+                                                            <br>
+                                                            <div class="progress" style="margin-bottom: 4px;">
+                                                                <div class="progress-bar progress-bar-success"
+                                                                     role="progressbar" aria-valuenow="40"
+                                                                     aria-valuemin="0" aria-valuemax="100"
+                                                                     style="width: 40%">
+                                                                    <span>众筹中</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle;">1.00<br>(运费：0.00 )</td>
+                                                <td style="vertical-align:middle;">草稿</td>
+                                                <td style="vertical-align:middle;">
+                                                    <div class="btn-group-vertical" role="group"
+                                                         aria-label="Vertical button group">
+                                                        <button type="button" class="btn btn-default">项目预览</button>
+                                                        <button type="button" class="btn btn-default">修改项目</button>
+                                                        <button type="button" class="btn btn-default">删除项目</button>
+                                                        <button type="button" class="btn btn-default">问题管理</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+                    众筹资产
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" style="margin-top:20px;">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div id="footer">
+                <div class="footerNav">
+                    <a rel="nofollow" href="http://www.atguigu.com">关于我们</a> | <a rel="nofollow"
+                                                                                  href="http://www.atguigu.com">服务条款</a>
+                    | <a rel="nofollow" href="http://www.atguigu.com">免责声明</a> | <a rel="nofollow"
+                                                                                    href="http://www.atguigu.com">网站地图</a>
+                    | <a rel="nofollow" href="http://www.atguigu.com">联系我们</a>
+                </div>
+                <div class="copyRight">
+                    Copyright ?2017-2017atguigu.com 版权所有
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+    $('.myTab1 a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    });
+
+
+    /* 动态生成我的众筹展示表格 */
+    function generationTable(data) {
+
+        $.each(data, function (i) {
+            // 创建tr
+            var tr = $("<tr></tr>");
+            // 给tr追加td
+            tr.append("<td></td>")
+                .append("<td>2017-05-23 11:31:22</td>")
+                .append("<td>" + this.returnCount * this.supportPrice + "<br>(运费：" + this.freight + ")</td>")
+                .append("<td>" + this.returnCount + "</td>")
+                .append("<td>交易关闭</td>")
+                .append("<td><button>删除订单</button><button>交易详情</button></td>")
+            ;
+
+            // 第一个td的行内元素
+            var div1 = $("<div class='thumbnail'></div>");
+            var div2 = $("<div class='caption'><h3>" + this.projectName + "</h3><p>订单编号：" + this.payOrderNum + "</p></div>")
+                .append("<p><div style='float:left;'><i class='glyphicon glyphicon-screenshot' title='目标金额'></i>已完成 " + this.percentage + '%' + "</div><div style='float:right;'><i title='截至日期' class='glyphicon glyphicon-calendar'></i>剩余" + this.lastDay + "天</div></p>")
+                .append("<br>")
+                .append("<div class='progress' style='margin-bottom: 4px;'><div class='progress-bar progress-bar' role='progressbar' aria-valuenow='" + this.percentage + "' aria-valuemin='0' aria-valuemax='100' style='width: " + this.percentage + "%'><span>众筹中</span></div></div>");
+
+            var div3 = div2.children().find("div.progress-bar");
+            if(this.percentage==100){
+                div3.removeClass().addClass("progress-bar progress-bar-success");
+                var span1 = div3.children("span").text("已完成");
+            }
+
+            // 将div添加到第一个td中
+            div1.appendTo(tr.children().first());
+            // 将第二个div添加到第一个div中
+            div2.appendTo(div1);
+
+            // 给所有的td添加样式
+            tr.children().css("vertical-align", "middle");
+
+            // 将tr加入到tbody中
+            $("#support_tbody").append(tr);
+        });
+    }
+
+
+    /* 主函数 */
+    $(function () {
+        // 获取当前登录的id
+        var memberId = [[${session.member.id}]];
+
+        $.ajax({
+            url: "get/my/crowd",
+            type: "post",
+            data: {memberId: memberId},
+            dataType: "json",
+            success: function (data) {
+                if (data.result == "SUCCESS") {
+                    console.log(data);
+                    generationTable(data.data);
+                }
+            }
+
+        });
+    });
+
+
+</script>
+</body>
+</html>

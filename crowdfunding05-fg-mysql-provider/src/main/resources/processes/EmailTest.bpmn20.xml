@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="EmailTest" name="EmailTest" isExecutable="true">
+    <startEvent id="sid-06c900f9-494b-4a35-a026-b3efe73f1e11"/>
+    <serviceTask activiti:type="mail" id="sid-f70f6709-221f-41a7-913a-a0683c40b0aa">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string>15660129782@163.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string>15660129782@163.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string>测试邮件</activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string>aa</activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:string>&lt;h1&gt;您好&lt;/&gt;</activiti:string>
+        </activiti:field>
+        <activiti:field name="charset">
+          <activiti:string>utf-8</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-c2690b7d-8793-4761-9e1c-3d526de2518b" sourceRef="sid-06c900f9-494b-4a35-a026-b3efe73f1e11" targetRef="sid-f70f6709-221f-41a7-913a-a0683c40b0aa"/>
+    <endEvent id="sid-efbff599-9266-4dfe-a0ba-ce3fd030de92"/>
+    <sequenceFlow id="sid-585b4931-f47c-4cf2-b934-a33531187621" sourceRef="sid-f70f6709-221f-41a7-913a-a0683c40b0aa" targetRef="sid-efbff599-9266-4dfe-a0ba-ce3fd030de92"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_EmailTest">
+    <bpmndi:BPMNPlane bpmnElement="EmailTest" id="BPMNPlane_EmailTest">
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-6ee3a992-6d91-4dae-9584-3ac71f666e35" bpmnElement="sid-06c900f9-494b-4a35-a026-b3efe73f1e11">
+        <omgdc:Bounds x="-93.5" y="-88.25" width="30.0" height="30.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-affe1fcf-f588-437e-93d6-3f618cc2b85c" bpmnElement="sid-f70f6709-221f-41a7-913a-a0683c40b0aa">
+        <omgdc:Bounds x="-27.5" y="-82.25" width="100.0" height="80.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-4de9b172-cb0d-4d6c-a873-3b26348679cb" bpmnElement="sid-c2690b7d-8793-4761-9e1c-3d526de2518b">
+        <omgdi:waypoint x="-63.5" y="-65.75"/>
+        <omgdi:waypoint x="-27.5" y="-62.25"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-894190c0-d7b1-4770-9816-dbf098a3ca74" bpmnElement="sid-efbff599-9266-4dfe-a0ba-ce3fd030de92">
+        <omgdc:Bounds x="91.0" y="-40.25" width="30.0" height="30.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-f9f9968b-2212-46c6-abc3-dfe8abb03bbd" bpmnElement="sid-585b4931-f47c-4cf2-b934-a33531187621">
+        <omgdi:waypoint x="72.5" y="-22.25"/>
+        <omgdi:waypoint x="91.0" y="-25.25"/>
+      </bpmdi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

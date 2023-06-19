@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!-- 邮件确认页面表单 -->
+<form role="form" style="margin-top:20px;">
+    <div class="form-group">
+        <label for="email">邮箱地址</label>
+        <input id="email" type="email" name="email" th:value="${session.member.getEmail()}" class="form-control"  placeholder="请输入用于接收验证码的邮箱地址">
+    </div>
+    <button type="button" url="to/cert/upload.html" class="btn btn-default tabBtn">上一步</button>
+    <button type="button" style="display: none;" url="to/email/confirm.html" class="btn btn-default tabBtn">上一步</button>
+    <button type="button" toapplyBtn="t" url="to/apply/confirm.html" class="btn btn-success tabBtn">下一步</button>
+</form>

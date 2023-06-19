@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 引入公共头部 -->
+<head th:replace="common/js_file :: head(~{::title})"></head>
+<link rel="stylesheet" href="css/theme.css">
+<title>实名认证</title>
+
+<!-- 引入公共css样式 -->
+<style th:replace="common/css_file :: style"></style>
+
+<body>
+
+<!-- 引入会员中心的navbar -->
+<div th:replace="common/navbar :: membercenternavbar"></div>
+
+<div class="container theme-showcase" role="main">
+    <div class="page-header">
+        <h1>实名认证 - 申请</h1>
+    </div>
+
+    <!-- 引入navtab -->
+    <ul th:replace="common/navtab :: navtab"></ul>
+
+    <!-- 存放页面元素 -->
+    <div class="pageContent">
+
+    </div>
+
+</div>
+
+<!-- 引入footer -->
+<div th:replace="common/footer :: footer"></div>
+
+</body>
+<!-- 脚本语言 -->
+<script type="text/javascript">
+
+    /* 主函数 */
+    $(function () {
+        /* 每次来到这个页面都需要加载第一个tab */
+        $.get("to/basic/information.html", function (data) {
+            // 每次追加前先清空
+            $(".pageContent").empty().append(data);
+        });
+
+        /* li的点击事件 */
+        $("li[role='presentation']").click(function () {
+
+            // 点击前先清除active属性
+            $(this).siblings("li[role='presentation']").removeClass("active");
+            // 给li添加active属性
+            $(this).addClass("active");
+
+            // 获取点击的url地址
+            var url = $(this).find("a").attr("href");
+            console.log(url);
+            // 发送请求获取页面元素
+            $.get(url, function (data) {
+                // 每次追加前先清空
+                $(".pageContent").empty().append(data);
+            });
+            // 禁用超链接默认行为
+            return false;
+        });
+
+
+
+    });
+
+    /* 表单中的button点击事件 */
+    $("body").on("click", ".tabBtn", function () {
+        var url = $(this).attr("url");
+        // 回到账户选择页面
+        if (url == "fg/auth/to/select/account.html") {
+            location.href = url;
+            return false;
+        }
+        // 去资质上传页面
+        else if ($(this).attr("form") == "true") {
+            var formData = new FormData($("#certForm")[0]);
+            // 发送上传资质文件上传请求
+            $.ajax({
+                // 跨域请求地址   http://localhost:2000/upload/cert/file/remote
+                url: "to/email/confirm.html",
+                type: "post",
+                data: formData,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $(".pageContent").empty().append(data);
+                    var hiddenUrl = $("button:hidden.tabBtn").attr("url");
+                    // 根据url找到a标签
+                    $("a[href='" + hiddenUrl + "']")
+                    // 根据找到的a标签去找该a标签的li
+                        .parents("li[role='presentation']")
+                        // 给找到的li添加激活属性
+                        .addClass("active")
+                        .siblings("li[role='presentation']")
+                        .removeClass("active");
+                }
+            });
+        }
+        // 去往邮箱确认页面
+        else if ($(this).attr("toapplyBtn") == "t") {
+            var email = $("#email").val();
+            $.post(url, {email: email}, function (data) {
+                $(".pageContent").empty().append(data);
+                var hiddenUrl = $("button:hidden.tabBtn").attr("url");
+                // 根据url找到a标签
+                $("a[href='" + hiddenUrl + "']")
+                // 根据找到的a标签去找该a标签的li
+                    .parents("li[role='presentation']")
+                    // 给找到的li添加激活属性
+                    .addClass("active")
+                    .siblings("li[role='presentation']")
+                    .removeClass("active");
+            });
+        }
+        else if (url == "to/cert/upload.html") {// 未跳转出当前页
+            // 获取form表单内容
+
+            if (url == "to/cert/upload.html") {
+                var realName = $("input[name=realname]").val();
+                var cardNum = $("input[name=cardnum]").val();
+                // 身份证号正则表达式
+                var cardNumPattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+
+                // 数据验证
+                if (realName == "" && realName.length == 0) {
+                    layer.msg("请输入真实姓名");
+                    return false;
+                }
+                if (cardNum == "" && cardNum.length == 0) {
+                    layer.msg("请输入证件号");
+                    return false;
+                }
+                if (!cardNumPattern.test(cardNum)) {
+                    layer.msg("请输入有效证件号");
+                    return false;
+                }
+            }
+            // 序列化当前表单的数据
+            var formData = $(".submitForm").serialize();
+            // 解码中文
+            var params = decodeURIComponent(formData, true);
+
+            $.post(url, params, function (data) {
+                $(".pageContent").empty().append(data);
+                // 本页地址的url
+                var hiddenUrl = $("button:hidden.tabBtn").attr("url");
+                // 根据url找到a标签
+                $("a[href='" + hiddenUrl + "']")
+                // 根据找到的a标签去找该a标签的li
+                    .parents("li[role='presentation']")
+                    // 给找到的li添加激活属性
+                    .addClass("active")
+                    .siblings("li[role='presentation']")
+                    .removeClass("active");
+            });
+        } else if (url == "apply/success.html") {
+
+            // 获取前端输入的验证码
+            var code = $.trim($("input[name=code]").val());
+            if (code.length == 0 || code == "") {
+                layer.msg("请输入您收到的验证码！");
+                return false;
+            }
+
+            $.ajax({
+                url: url,
+                type: "post",
+                data: {code: code},
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.data = "true") {
+                        //显示自动关闭倒计秒数
+                        layer.alert('您的申请我们已收到，将在1-3个工作日内审核通过！', {
+                            time: 5 * 1000
+                            , success: function (layero, index) {
+                                var timeNum = this.time / 1000, setText = function (start) {
+                                    layer.title((start ? timeNum : --timeNum) + ' 秒后关闭', index);
+                                };
+                                setText(!0);
+                                this.timer = setInterval(setText, 1000);
+                                if (timeNum <= 0) clearInterval(this.timer);
+                            }
+                            , end: function () {
+                                clearInterval(this.timer);
+                                window.location.href = "fg/auth/to/center/page.html";
+                            }
+                        });
+                    } else {
+                        layer.msg("验证码错误");
+                        return false;
+                    }
+
+                }
+            });
+        }
+
+    });
+
+
+
+
+
+    /* 文件上传点击事件 */
+    $("body").on("change", ".file", function (e) {
+        // 清空一下
+        $(this).nextAll("div.imgShow").empty();
+        // 获取文件
+        var files = e.target.files;
+        var file;
+        if (files && files.length > 0) {
+            file = files[0];
+        }
+        // 判断文件类型
+        var fileType = file.name.substring(file.name.lastIndexOf(".") + 1).toLowerCase();
+        if (fileType != "jpg" && fileType != "png") {
+            layer.msg("请选择后缀为 jpg/png 的文件");
+            return false;
+        }
+        // 判断是否选择了文件
+        if (files.length <= 0) {
+            layer.msg("请选择图片后再上传！‘");
+            return false;
+        }
+        // 获取文件路径
+        var URL = window.URL || window.webkitURL;
+        var imgURL = URL.createObjectURL(file);
+        // 生成img
+        $(this).nextAll("div.imgShow").append("<img src='" + imgURL + "' style='width: 600px;height: 400px'/>");
+
+
+    });
+
+
+</script>
+</html>

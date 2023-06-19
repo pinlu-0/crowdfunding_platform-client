@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 引入公共的head标签内容 -->
+<head th:replace="common/js_file :: head(~{::title})">
+</head>
+<title>用户登录</title>
+
+
+<body>
+
+<!-- 引入公共的头部 -->
+<div th:replace="common/navbar :: navbar"></div>
+
+<div class="container">
+    <form class="form-signin" role="form">
+        <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户登录</h2>
+        <p style="text-align: center" th:text="${session.message}">异常提示信息</p>
+        <div class="form-group has-success has-feedback">
+            <input type="text" id="loginacct" name="loginacct" class="form-control" placeholder="请输入登录账号" autofocus>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <input type="password" id="userpswd" name="userpswd" class="form-control" placeholder="请输入登录密码"
+                   style="margin-top:10px;">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="checkbox" style="text-align:right;"><a th:href="@{/fg/auth/to/register/page.html}">我要注册</a></div>
+        <button type="button" id="loginBtn" class="btn btn-lg btn-success btn-block">登录</button>
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+
+    $(function () {
+
+        /* 登录按钮单击事件 */
+        $("#loginBtn").click(function () {
+            // 获取表单数据
+            var loginacct = $.trim($("#loginacct").val());
+            var userpswd = $.trim($("#userpswd").val());
+            // 判断
+            if (loginacct.length == 0 || loginacct == "") {
+                layer.msg("登录账号不能为空");
+                return false;
+            }
+            if (userpswd.length == 0 || userpswd == "") {
+                layer.msg("密码不能为空");
+                return false;
+            }
+            // 登录请求
+            $.ajax({
+                "url": "/fg/auth/do/member/login.json",
+                "type": "POST",
+                "data": {"loginacct": loginacct, "userpswd": userpswd},
+                "dataType": "json",
+                "success": function (response) {
+                    console.log(response);
+                    var result = response.result;
+                    if (result == "SUCCESS") {
+                        // window.location.href = "fg/auth/to/center/page.html";
+                        window.location.href = "";
+                    }
+                    if (result == "FAILED") {
+                        layer.msg(response.errorMessage);
+                    }
+                }
+            });
+
+        });
+    })
+
+</script>
+</html>

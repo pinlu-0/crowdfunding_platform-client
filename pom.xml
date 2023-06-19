@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.atcpl.crowd</groupId>
+    <artifactId>crowdfunding01-fg-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>crowdfunding02-fg-eureka</module>
+        <module>crowdfunding03-fg-entity</module>
+        <module>crowdfunding04-fg-redis-provider</module>
+        <module>crowdfunding05-fg-mysql-provider</module>
+        <module>crowdfunding06-fg-authentication-consumer</module>
+        <module>crowdfunding07-fg-project-consumer</module>
+        <module>crowdfunding08-fg-order-consumer</module>
+        <module>crowdfunding09-fg-pay-consumer</module>
+        <module>crowdfunding10-fg-zuul</module>
+        <module>crowdfunding11-fg-api</module>
+        <module>crowdfunding12-fg-reverse</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 导入SpringCloud需要使用的依赖信息 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.SR3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- 导入SpringBoot需要使用的依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.1.6.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringBoot整合Mybatis依赖 -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>2.1.4</version>
+            </dependency>
+            <!-- 连接池依赖 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

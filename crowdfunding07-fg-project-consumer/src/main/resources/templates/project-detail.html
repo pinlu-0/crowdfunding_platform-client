@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 引入公共的header -->
+<head th:replace="common/js_file :: head(~{::title})"></head>
+<title>项目详情展示</title>
+
+
+<!-- 引入公共的样式 -->
+<style th:replace="common/css_file :: cssstyle"></style>
+
+<!-- 本页面单独拥有的css样式 -->
+<style>
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        border-bottom-color: #ddd;
+    }
+
+    .nav-tabs > li > a {
+        border-radius: 0;
+    }
+</style>
+
+<body>
+<!-- 引入公共的header -->
+<div th:replace="common/header :: header"></div>
+
+<div class="container theme-showcase" role="main">
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <!-- 引入项目模块的连接跳转导航栏 -->
+                <nav th:replace="common/header :: goto"></nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- 判断项目详情信息结果集 -->
+    <div th:if="${#strings.isEmpty(detailProjectVO)}" style="text-align: center">查询项目详情失败</div>
+
+    <div th:if="${not #strings.isEmpty(detailProjectVO)}">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="jumbotron nofollow" style="    padding-top: 10px;">
+                        <h3 th:text="${detailProjectVO.projectName}">
+                            此处显示项目名称
+                        </h3>
+                        <div style="float:left;width:70%;" th:text="${detailProjectVO.projectDesc}">
+                            此处显示项目简介
+                        </div>
+                        <div style="float:right;">
+                            <button type="button" class="btn btn-default">
+                                <i style="color:#f60" class="glyphicon glyphicon-heart"></i> 关注
+                                [[${detailProjectVO.followerCount}]]
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="row clearfix">
+                        <div class="col-md-8 column"
+                             th:if="${#strings.isEmpty(detailProjectVO.detailPicturePathList) || detailProjectVO.detailPicturePathList.size()==0}">
+                            未加载到详情图片
+                        </div>
+                        <div class="col-md-8 column"
+                             th:if="${not #strings.isEmpty(detailProjectVO.detailReturnVOList)}">
+                            <img alt="140x140" th:src="${'https://'+detailProjectVO.headerPicturePath}" width="740"
+                                 src="img/product_detail_head.jpg"/>
+                            <img alt="140x140" th:each="detailPicturePath : ${detailProjectVO.detailPicturePathList}"
+                                 th:src="${'https://'+detailPicturePath}" width="740"
+                                 src="img/product_detail_body.jpg"/>
+                        </div>
+                        <div class="col-md-4 column">
+                            <div class="panel panel-default" style="border-radius: 0px;">
+                                <div class="panel-heading" style="background-color: #fff;border-color: #fff;">
+                                    <span class="label label-success"><i class="glyphicon glyphicon-tag"></i> [[${detailProjectVO.statusText}]]</span>
+                                </div>
+                                <div class="panel-body">
+                                    <h3>
+                                        已筹资金：￥[[${detailProjectVO.supportMoney}]]
+                                    </h3>
+                                    <p><span>目标金额 ： [[${detailProjectVO.money}]]</span><span style="float:right;">达成 ： [[${detailProjectVO.percentage}]]%</span>
+                                    </p>
+                                    <div class="progress" style="height:10px; margin-bottom: 5px;">
+                                        <div class="progress-bar progress-bar-success" role="progressbar"
+                                             aria-valuenow="[[${detailProjectVO.percentage}]]"
+                                             aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 80%;"
+                                             th:style="'width: '+${detailProjectVO.percentage}+'%'"></div>
+                                    </div>
+                                    <p>剩余 [[${detailProjectVO.lastDay}]] 天</p>
+                                    <div>
+                                        <p><span>已有[[${detailProjectVO.supporterCount}]]人支持该项目</span></p>
+                                        <!--<button type="button" class="btn  btn-warning btn-lg btn-block"
+                                                data-toggle="modal"
+                                                data-target="#myModal">立即支持
+                                        </button>-->
+                                    </div>
+                                </div>
+                                <!--<div class="panel-footer" style="    background-color: #fff;
+                                    border-top: 1px solid #ddd;
+                                    border-bottom-right-radius: 0px;
+                                    border-bottom-left-radius: 0px;">
+                                    <div class="container-fluid">
+                                        <div class="row clearfix">
+                                            <div class="col-md-3 column" style="padding:0;">
+                                                <img alt="140x140" src="img/services-box2.jpg"
+                                                     data-holder-rendered="true"
+                                                     style="width: 80px; height: 80px;">
+                                            </div>
+                                            <div class="col-md-9 column">
+                                                <div class="">
+                                                    <h4>
+                                                        <b>福建省南安厨卫</b> <span style="float:right;font-size:12px;"
+                                                                             class="label label-success">已认证</span>
+                                                    </h4>
+                                                    <p style="font-size:12px">
+                                                        酷驰是一家年轻的厨卫科技公司，我们有一支朝气蓬勃，有激情、有想法、敢实践的团队。
+                                                    </p>
+                                                    <p style="font-size:12px">
+                                                        客服电话:0595-86218855
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+
+                            <!-- 判断查询回报信息结果集 -->
+                            <div th:if="${#strings.isEmpty(detailProjectVO.detailReturnVOList)}">未加载到回报信息</div>
+
+                            <div th:if="${ not #strings.isEmpty(detailProjectVO.detailReturnVOList)}">
+                                <div class="panel panel-default"
+                                     th:each="return : ${detailProjectVO.detailReturnVOList}"
+                                     style="border-radius: 0px;">
+
+                                    <div class="panel-heading">
+                                        <h3>
+                                            ￥[[${return.supportMoney}]]
+                                            <!-- 此位置没有查询数据库 -->
+                                            <span style="float:right;font-size:12px;"
+                                                  th:if="${return.singlePurchase==0}">无限额，当前 [[${detailProjectVO.supporterCount}]] 位支持者</span>
+                                            <span style="float:right;font-size:12px;"
+                                                  th:if="${return.singlePurchase==1}">限额，[[${return.purchase}]]，剩余[[${return.purchase} - ${detailProjectVO.supporterCount}]]位</span>
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p th:if="${return.freight==0}">配送费用：包邮</p>
+                                        <p th:if="${return.freight > 0}">配送费用：[[${return.freight}]]￥</p>
+                                        <p>预计发放时间：项目筹款成功后的[[${return.returnDate}]]天内</p>
+                                        <!-- 点击支持按钮发送请求 -->
+                                        <a th:href="'http://localhost/order/to/pay_step_1/'+${detailProjectVO.projectId}+'/'+${return.returnId}"
+                                           class="btn  btn-warning btn-lg">支持</a>
+                                        <br><br>
+                                        <p th:text="${return.content}">此处显示众筹内容</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" panel panel-default" style="border-radius: 0px;">
+                                <div class="panel-heading">
+                                    <h3>
+                                        风险提示
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p>1.众筹并非商品交易，存在一定风险。支持者根据自己的判断选择、支持众筹项目，与发起人共同实现梦想并获得发起人承诺的回报。<br>
+                                        2.众筹平台仅提供平台网络空间及技术支持等中介服务，众筹仅存在于发起人和支持者之间，使用众筹平台产生的法律后果由发起人与支持者自行承担。<br>
+                                        3.本项目必须在2017-06-09之前达到￥10000.00
+                                        的目标才算成功，否则已经支持的订单将取消。订单取消或募集失败的，您支持的金额将原支付路径退回。<br>
+                                        4.请在支持项目后15分钟内付款，否则您的支持请求会被自动关闭。<br>
+                                        5.众筹成功后由发起人统一进行发货，售后服务由发起人统一提供；如果发生发起人无法发放回报、延迟发放回报、不提供回报后续服务等情况，您需要直接和发起人协商解决。<br>
+                                        6.如您不同意上述风险提示内容，您有权选择不支持；一旦选择支持，视为您已确认并同意以上提示内容。</p>
+                                </div>
+                            </div>
+
+                            <div><h2>为你推荐</h2>
+                                <hr>
+                            </div>
+                            <div class="prjtip panel panel-default" style="border-radius: 0px;">
+                                <div class="panel-body">
+                                    <img src="img/product-3.png" width="100%" height="100%">
+                                </div>
+                            </div>
+
+                            <div class="prjtip panel panel-default" style="border-radius: 0px;">
+                                <div class="panel-body">
+                                    <img src="img/product-4.jpg" width="100%" height="100%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="container" style="margin-top:20px;">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div id="footer">
+                    <div class="footerNav">
+                        <a rel="nofollow" href="http://www.atguigu.com">关于我们</a> | <a rel="nofollow"
+                                                                                      href="http://www.atguigu.com">服务条款</a>
+                        | <a rel="nofollow" href="http://www.atguigu.com">免责声明</a> | <a rel="nofollow"
+                                                                                        href="http://www.atguigu.com">网站地图</a>
+                        | <a rel="nofollow" href="http://www.atguigu.com">联系我们</a>
+                    </div>
+                    <div class="copyRight">
+                        Copyright ?2010-2014atguigu.com 版权所有
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 点击立即支持弹出支持信息的模态框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog " style="width:960px;height:400px;" role="document">
+        <div class="modal-content" data-spy="scroll" data-target="#myScrollspy">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">选择支持项</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row clearfix">
+                        <div class="col-sm-3 col-md-3 column" id="myScrollspy">
+                            <ul class="nav nav-tabs nav-stacked">
+                                <li class="active"><a href="#section-1">￥1.00</a></li>
+                                <li class="active"><a href="#section-2">￥149.00</a></li>
+                                <li class="active"><a href="#section-3">￥249.00</a></li>
+                                <li class="active"><a href="#section-4">￥549.00</a></li>
+                                <li class="active"><a href="#section-5">￥1999.00</a></li>
+                            </ul>
+                        </div>
+                        <div id="navList" class="col-sm-9 col-md-9 column" style="height:400px;overflow-y:auto;">
+                            <h2 id="section-1" style="border-bottom:1px dashed #ddd;"><span
+                                    style="font-size:20px;font-weight:bold;">￥1.00</span><span
+                                    style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
+                            <p>配送费用：全国包邮</p>
+                            <p>预计发放时间：项目筹款成功后的30天内</p>
+                            <button type="button" class="btn  btn-warning btn-lg "
+                                    onclick="window.location.href='pay-step-1.html'">支持
+                            </button>
+                            <br><br>
+                            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
+                            <hr>
+                            <h2 id="section-2" style="border-bottom:1px dashed #ddd;"><span
+                                    style="font-size:20px;font-weight:bold;">￥149.00</span><span
+                                    style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
+                            <p>配送费用：全国包邮</p>
+                            <p>预计发放时间：项目筹款成功后的30天内</p>
+                            <button type="button" class="btn  btn-warning btn-lg "
+                                    onclick="window.location.href='pay-step-1.html'">支持
+                            </button>
+                            <br><br>
+                            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
+                            <hr>
+                            <h2 id="section-3" style="border-bottom:1px dashed #ddd;"><span
+                                    style="font-size:20px;font-weight:bold;">￥249.00</span><span
+                                    style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
+                            <p>配送费用：全国包邮</p>
+                            <p>预计发放时间：项目筹款成功后的30天内</p>
+                            <button type="button" class="btn  btn-warning btn-lg "
+                                    onclick="window.location.href='pay-step-1.html'">支持
+                            </button>
+                            <br><br>
+                            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
+                            <hr>
+                            <h2 id="section-4" style="border-bottom:1px dashed #ddd;"><span
+                                    style="font-size:20px;font-weight:bold;">￥549.00</span><span
+                                    style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
+                            <p>配送费用：全国包邮</p>
+                            <p>预计发放时间：项目筹款成功后的30天内</p>
+                            <button type="button" class="btn  btn-warning btn-lg "
+                                    onclick="window.location.href='pay-step-1.html'">支持
+                            </button>
+                            <br><br>
+                            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
+                            <hr>
+                            <h2 id="section-5" style="border-bottom:1px dashed #ddd;"><span
+                                    style="font-size:20px;font-weight:bold;">￥1999.00</span><span
+                                    style="font-size:12px;margin-left:60px;">无限额，223位支持者</span></h2>
+                            <p>配送费用：全国包邮</p>
+                            <p>预计发放时间：项目筹款成功后的30天内</p>
+                            <button type="button" class="btn  btn-warning btn-lg "
+                                    onclick="window.location.href='pay-step-1.html'">支持
+                            </button>
+                            <br><br>
+                            <p>每满1750人抽取一台活性富氢净水直饮机，至少抽取一台。抽取名额（小数点后一位四舍五入）=参与人数÷1750人，由苏宁官方抽取。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script>
+    $(".prjtip img").css("cursor", "pointer");
+    $(".prjtip img").click(function () {
+        // 项目详情页面的为你推荐内容链接地址
+        window.location.href = 'project.html';
+    });
+</script>
+</body>
+</html>

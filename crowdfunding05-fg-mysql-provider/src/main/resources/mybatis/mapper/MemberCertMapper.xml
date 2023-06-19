@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atcpl.crowd.mapper.MemberCertMapper">
+
+    <!-- 自己写的语句 -->
+    <!-- void insertBatch(List<MemberCert> list); -->
+    <insert id="insertBatch">
+      INSERT into inner_member_cert(memberid,certid,url)
+      VALUES
+      <foreach collection="list" item="cert" separator=",">
+          (#{cert.memberid},#{cert.certid},#{cert.url})
+      </foreach>
+    </insert>
+
+    <resultMap id="BaseResultMap" type="com.atcpl.crowd.entity.po.MemberCert">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="memberid" property="memberid" jdbcType="INTEGER"/>
+        <result column="certid" property="certid" jdbcType="INTEGER"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, memberid, certid, url
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.atcpl.crowd.entity.po.MemberCertExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from inner_member_cert
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from inner_member_cert
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from inner_member_cert
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.atcpl.crowd.entity.po.MemberCertExample">
+        delete from inner_member_cert
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.atcpl.crowd.entity.po.MemberCert">
+    insert into inner_member_cert (id, memberid, certid, 
+      url)
+    values (#{id,jdbcType=INTEGER}, #{memberid,jdbcType=INTEGER}, #{certid,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.atcpl.crowd.entity.po.MemberCert">
+        insert into inner_member_cert
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="memberid != null">
+                memberid,
+            </if>
+            <if test="certid != null">
+                certid,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="memberid != null">
+                #{memberid,jdbcType=INTEGER},
+            </if>
+            <if test="certid != null">
+                #{certid,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.atcpl.crowd.entity.po.MemberCertExample"
+            resultType="java.lang.Integer">
+        select count(*) from inner_member_cert
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update inner_member_cert
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.memberid != null">
+                memberid = #{record.memberid,jdbcType=INTEGER},
+            </if>
+            <if test="record.certid != null">
+                certid = #{record.certid,jdbcType=INTEGER},
+            </if>
+            <if test="record.url != null">
+                url = #{record.url,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update inner_member_cert
+        set id = #{record.id,jdbcType=INTEGER},
+        memberid = #{record.memberid,jdbcType=INTEGER},
+        certid = #{record.certid,jdbcType=INTEGER},
+        url = #{record.url,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.atcpl.crowd.entity.po.MemberCert">
+        update inner_member_cert
+        <set>
+            <if test="memberid != null">
+                memberid = #{memberid,jdbcType=INTEGER},
+            </if>
+            <if test="certid != null">
+                certid = #{certid,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.atcpl.crowd.entity.po.MemberCert">
+    update inner_member_cert
+    set memberid = #{memberid,jdbcType=INTEGER},
+      certid = #{certid,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

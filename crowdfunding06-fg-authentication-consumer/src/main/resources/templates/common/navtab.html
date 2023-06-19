@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 实名认证页面的navtab -->
+
+<ul class="nav nav-tabs" role="tablist" th:fragment="navtab">
+    <li role="presentation" class="active"><a th:href="@{to/basic/information.html}"><span class="badge">1</span>
+        基本信息</a></li>
+    <li role="presentation"><a th:href="@{to/cert/upload.html}"><span class="badge">2</span> 资质文件上传</a></li>
+    <li role="presentation"><a th:href="@{to/email/confirm.html}"><span class="badge">3</span> 邮箱确认</a></li>
+    <li role="presentation"><a th:href="@{to/apply/confirm.html}"><span class="badge">4</span> 申请确认</a></li>
+</ul>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 登录页面的navbar -->
+<div class="navbar-wrapper" th:fragment="navbar">
+    <div class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html" style="font-size:32px;">众筹平台</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!-- 首页的navbar -->
+<div class="navbar-wrapper" th:fragment="homenavbar">
+    <div class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html" style="font-size:32px;">众筹平台</a>
+                </div>
+                <div th:if="${ #strings.isEmpty(session.member)}" id="navbar" class="navbar-collapse collapse" style="float:right;">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" th:href="@{/fg/auth/to/login/page.html}">登录</a></li>
+                        <li><a href="#" th:href="@{/fg/auth/to/register/page.html}">注册</a></li>
+                    </ul>
+                </div>
+
+                <div th:if="${ not #strings.isEmpty(session.member)}" class="navbar-collapse collapse" style="float:right;">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> [[${session.member.username}]]<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="fg/auth/to/center/page.html"><i class="glyphicon glyphicon-scale"></i> 个人中心</a></li>
+                                <li><a href="javascript:void(0);"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" th:href="@{http:/fg/auth/exit/to/login/page.html}"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!-- 会员中心的navbar -->
+<div class="navbar-wrapper" th:fragment="membercenternavbar">
+    <div class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html" style="font-size:32px;">众筹平台</a>
+                </div>
+                <div class="navbar-collapse collapse" style="float:right;">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> [[${session.member.username}]]<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href=""><i class="glyphicon glyphicon-scale"></i> 首页</a></li>
+                                <li><a href="javascript:void(0);"><i class="glyphicon glyphicon-comment"></i> 消息</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" th:href="@{http:/fg/auth/exit/to/login/page.html}"><i class="glyphicon glyphicon-off"></i> 退出系统</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

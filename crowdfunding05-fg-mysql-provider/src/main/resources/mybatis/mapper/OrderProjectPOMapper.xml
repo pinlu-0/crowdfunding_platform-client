@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atcpl.crowd.mapper.OrderProjectPOMapper">
+
+    <!-- 自己写的语句 -->
+    <!-- OrderProjectVO selectOrderProjectVo(Integer returnId); -->
+    <select id="selectOrderProjectVo" resultType="com.atcpl.crowd.entity.vo.OrderProjectVO">
+        select DISTINCT
+            t_project.id projectId,
+			project_name projectName,
+			content returnContent,
+			description_simple launchName,
+			t_return.supportmoney supportPrice,
+			freight freight,
+			count returnCount,
+			t_return.signalpurchase signalPurchase,
+			purchase purchase
+        from t_project
+        LEFT JOIN t_member_launch_info on t_project.memberid=t_member_launch_info.memberId
+        LEFT JOIN t_return on t_project.id=t_return.projectId
+        where t_return.id=#{returnId}
+    </select>
+
+    <!-- List<MyCrowdInfo> getMyCrowd(Integer memberId); -->
+    <select id="getMyCrowd" resultType="com.atcpl.crowd.entity.vo.MyCrowdInfo">
+        select
+        t_order_project.project_name projectName,
+        t_order.alipay_order_num payOrderNum,
+        (t_project.supportmoney/t_project.money)*100 percentage,
+        t_project.supportmoney supportMoney,
+        t_project.money money,
+        t_project.day-DATEDIFF(CURDATE(),t_project.createdate) lastDay ,
+        t_order_project.support_price supportPrice,
+        t_order_project.return_count returnCount,
+        t_order_project.freight freight
+        from t_order_project
+        LEFT JOIN t_project  on t_order_project.project_id = t_project.id
+        LEFT JOIN t_order  on t_order_project.order_id = t_order.id
+        where t_order_project.memberid = #{memberId}
+    </select>
+
+
+    <resultMap id="BaseResultMap" type="com.atcpl.crowd.entity.vo.OrderProjectVO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+        <result column="launch_name" property="launchName" jdbcType="VARCHAR"/>
+        <result column="return_content" property="returnContent" jdbcType="VARCHAR"/>
+        <result column="return_count" property="returnCount" jdbcType="INTEGER"/>
+        <result column="support_price" property="supportPrice" jdbcType="INTEGER"/>
+        <result column="freight" property="freight" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="project_id" property="projectId" jdbcType="INTEGER"/>
+        <result column="memberid" property="memberid" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, project_name, launch_name, return_content, return_count, support_price, freight, 
+    order_id, project_id, memberid
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.atcpl.crowd.entity.po.OrderProjectPOExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from t_order_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order_project
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_order_project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.atcpl.crowd.entity.po.OrderProjectPOExample">
+        delete from t_order_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.atcpl.crowd.entity.po.OrderProjectPO">
+    insert into t_order_project (id, project_name, launch_name, 
+      return_content, return_count, support_price, 
+      freight, order_id, project_id, 
+      memberid)
+    values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{launchName,jdbcType=VARCHAR}, 
+      #{returnContent,jdbcType=VARCHAR}, #{returnCount,jdbcType=INTEGER}, #{supportPrice,jdbcType=INTEGER}, 
+      #{freight,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, 
+      #{memberid,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.atcpl.crowd.entity.po.OrderProjectPO">
+        insert into t_order_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="projectName != null">
+                project_name,
+            </if>
+            <if test="launchName != null">
+                launch_name,
+            </if>
+            <if test="returnContent != null">
+                return_content,
+            </if>
+            <if test="returnCount != null">
+                return_count,
+            </if>
+            <if test="supportPrice != null">
+                support_price,
+            </if>
+            <if test="freight != null">
+                freight,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="memberid != null">
+                memberid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="projectName != null">
+                #{projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="launchName != null">
+                #{launchName,jdbcType=VARCHAR},
+            </if>
+            <if test="returnContent != null">
+                #{returnContent,jdbcType=VARCHAR},
+            </if>
+            <if test="returnCount != null">
+                #{returnCount,jdbcType=INTEGER},
+            </if>
+            <if test="supportPrice != null">
+                #{supportPrice,jdbcType=INTEGER},
+            </if>
+            <if test="freight != null">
+                #{freight,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="memberid != null">
+                #{memberid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.atcpl.crowd.entity.po.OrderProjectPOExample"
+            resultType="java.lang.Integer">
+        select count(*) from t_order_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update t_order_project
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.projectName != null">
+                project_name = #{record.projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.launchName != null">
+                launch_name = #{record.launchName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.returnContent != null">
+                return_content = #{record.returnContent,jdbcType=VARCHAR},
+            </if>
+            <if test="record.returnCount != null">
+                return_count = #{record.returnCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.supportPrice != null">
+                support_price = #{record.supportPrice,jdbcType=INTEGER},
+            </if>
+            <if test="record.freight != null">
+                freight = #{record.freight,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderId != null">
+                order_id = #{record.orderId,jdbcType=INTEGER},
+            </if>
+            <if test="record.projectId != null">
+                project_id = #{record.projectId,jdbcType=INTEGER},
+            </if>
+            <if test="record.memberid != null">
+                memberid = #{record.memberid,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update t_order_project
+        set id = #{record.id,jdbcType=INTEGER},
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+        launch_name = #{record.launchName,jdbcType=VARCHAR},
+        return_content = #{record.returnContent,jdbcType=VARCHAR},
+        return_count = #{record.returnCount,jdbcType=INTEGER},
+        support_price = #{record.supportPrice,jdbcType=INTEGER},
+        freight = #{record.freight,jdbcType=INTEGER},
+        order_id = #{record.orderId,jdbcType=INTEGER},
+        project_id = #{record.projectId,jdbcType=INTEGER},
+        memberid = #{record.memberid,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.atcpl.crowd.entity.po.OrderProjectPO">
+        update t_order_project
+        <set>
+            <if test="projectName != null">
+                project_name = #{projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="launchName != null">
+                launch_name = #{launchName,jdbcType=VARCHAR},
+            </if>
+            <if test="returnContent != null">
+                return_content = #{returnContent,jdbcType=VARCHAR},
+            </if>
+            <if test="returnCount != null">
+                return_count = #{returnCount,jdbcType=INTEGER},
+            </if>
+            <if test="supportPrice != null">
+                support_price = #{supportPrice,jdbcType=INTEGER},
+            </if>
+            <if test="freight != null">
+                freight = #{freight,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="memberid != null">
+                memberid = #{memberid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.atcpl.crowd.entity.po.OrderProjectPO">
+    update t_order_project
+    set project_name = #{projectName,jdbcType=VARCHAR},
+      launch_name = #{launchName,jdbcType=VARCHAR},
+      return_content = #{returnContent,jdbcType=VARCHAR},
+      return_count = #{returnCount,jdbcType=INTEGER},
+      support_price = #{supportPrice,jdbcType=INTEGER},
+      freight = #{freight,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=INTEGER},
+      memberid = #{memberid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

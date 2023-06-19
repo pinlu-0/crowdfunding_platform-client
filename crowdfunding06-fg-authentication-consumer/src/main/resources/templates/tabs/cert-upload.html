@@ -1,0 +1,19 @@
+<!DOCTYPE html >
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!-- 资质上传页面表单 -->
+<form id="certForm"  role="form" style="margin-top:20px;" enctype="multipart/form-data">
+    <div th:each="cert:${certs}" class="form-group">
+        <label for="upfile" th:text="${cert.getName()}">这里写上传的资质名</label>
+        <input type="hidden" name="certid" th:value="${cert.getId()}">
+        <input type="file" id="upfile" name="file" class="form-control file">
+        <br>
+        <div class="imgShow">
+            <!-- 预显图片 -->
+        </div>
+    </div>
+    <button type="button" url="to/basic/information.html" class="btn btn-default tabBtn">上一步</button>
+    <!-- 本页地址共超链接使用 -->
+    <button type="button" style="display:none;" url="to/cert/upload.html"  class="btn btn-default tabBtn"></button>
+
+    <button type="button" form="true" url="to/email/confirm.html" class="btn btn-success tabBtn" >下一步</button>
+</form>

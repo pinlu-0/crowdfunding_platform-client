@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 引入公共的header -->
+<head th:replace="common/js_file :: head(~{::title})"></head>
+<title>确认信息</title>
+
+
+<!-- 引入公共的样式 -->
+<style th:replace="common/css_file :: cssstyle"></style>
+
+
+<body>
+
+<!-- 引入公共的header -->
+<div th:replace="common/header :: header"></div>
+
+<div class="container theme-showcase" role="main">
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+
+                <!-- 引入项目模块的连接跳转导航栏 -->
+                <nav th:replace="common/header :: goto"></nav>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="text-align:center;">
+                        <div class="container-fluid">
+                            <div class="row clearfix">
+                                <div class="col-md-3 column">
+                                    <div class="progress"
+                                         style="height:50px;border-radius:0;    position: absolute;width: 75%;right:49px;">
+                                        <div class="progress-bar progress-bar-default" role="progressbar"
+                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 100%;height:50px;">
+                                            <div style="font-size:16px;margin-top:15px;">1. 项目及发起人信息</div>
+                                        </div>
+                                    </div>
+                                    <div style="right: 0;border:10px solid #ddd;border-left-color: #88b7d5;border-width: 25px;position: absolute;
+                                             border-left-color: rgba(221, 221, 221, 1);
+                                             border-top-color: rgba(221, 221, 221, 0);
+                                             border-bottom-color: rgba(221, 221, 221, 0);
+                                             border-right-color: rgba(221, 221, 221, 0);
+                                        ">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 column">
+                                    <div class="progress"
+                                         style="height:50px;border-radius:0;position: absolute;width: 75%;right:49px;">
+                                        <div class="progress-bar progress-bar-default" role="progressbar"
+                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 100%;height:50px;">
+                                            <div style="font-size:16px;margin-top:15px;">2. 回报设置</div>
+                                        </div>
+                                    </div>
+                                    <div style="right: 0;border:10px solid #ddd;border-left-color: #88b7d5;border-width: 25px;position: absolute;
+                                             border-left-color: rgba(221, 221, 221, 1);
+                                             border-top-color: rgba(221, 221, 221, 0);
+                                             border-bottom-color: rgba(221, 221, 221, 0);
+                                             border-right-color: rgba(221, 221, 221, 0);
+                                        ">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 column">
+                                    <div class="progress"
+                                         style="height:50px;border-radius:0;position: absolute;width: 75%;right:49px;">
+                                        <div class="progress-bar progress-bar-default" role="progressbar"
+                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 100%;height:50px;">
+                                            <div style="font-size:16px;margin-top:15px;">3. 确认信息</div>
+                                        </div>
+                                    </div>
+                                    <div style="right: 0;border:10px solid #ddd;border-left-color: #88b7d5;border-width: 25px;position: absolute;
+                                              border-left-color: rgba(221, 221, 221, 1);
+                                             border-top-color: rgba(221, 221, 221, 0);
+                                             border-bottom-color: rgba(221, 221, 221, 0);
+                                             border-right-color: rgba(221, 221, 221, 0);
+                                        ">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 column">
+                                    <div class="progress" style="height:50px;border-radius:0;">
+                                        <div class="progress-bar progress-bar-success" role="progressbar"
+                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: 100%;height:50px;">
+                                            <div style="font-size:16px;margin-top:15px;">4. 完成</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="container-fluid">
+                            <div class="row clearfix">
+                                <div class="col-md-12 column">
+                                    <blockquote style="border-left: 5px solid #f60;color:#f60;padding: 0 0 0 20px;">
+                                        <b>
+                                            完成
+                                        </b>
+                                    </blockquote>
+                                </div>
+                                <div class="col-md-12 column">
+
+
+                                    <div class="row clearfix">
+                                        <div class="col-md-12 column">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body" style="padding:60px;">
+                                                    <i class="glyphicon glyphicon-ok"
+                                                       style="color:green;font-size:40px;"></i> <span
+                                                        style="margin-left:20px;">你发起的众筹项目信息已经提交完毕，我们会在5~7个工作日内对项目进行审核，请耐心等候</span>
+                                                    <p style="margin-left:60px;">你能在会员中心-我的众筹- 发起的项目中查看</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer" style="text-align:center;">
+                        <button type="button" class="btn  btn-warning btn-lg"
+                                onclick="window.location.href='fg/auth/to/my/crowd/page.html'">我的众筹
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" style="margin-top:20px;">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div id="footer">
+                    <div class="footerNav">
+                        <a rel="nofollow" href="http://www.atguigu.com">关于我们</a> | <a rel="nofollow"
+                                                                                      href="http://www.atguigu.com">服务条款</a>
+                        | <a rel="nofollow" href="http://www.atguigu.com">免责声明</a> | <a rel="nofollow"
+                                                                                        href="http://www.atguigu.com">网站地图</a>
+                        | <a rel="nofollow" href="http://www.atguigu.com">联系我们</a>
+                    </div>
+                    <div class="copyRight">
+                        Copyright ?2017-2017atguigu.com 版权所有
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+</script>
+</body>
+</html>

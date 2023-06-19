@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 引入公共的head标签内容 -->
+<head th:replace="common/js_file :: head(~{::title})"></head>
+<title>首页</title>
+
+<!-- 引入本页面的css文件 -->
+<style th:replace="common/css_file :: style"></style>
+
+<body>
+<!-- 引入navbar -->
+<div th:replace="common/navbar :: homenavbar"></div>
+
+<!-- Carousel
+================================================== -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active" onclick="window.location.href='project.html'" style="cursor:pointer;">
+            <img src="img/carousel-1.jpg" alt="First slide">
+        </div>
+        <div class="item" onclick="window.location.href='project.html'" style="cursor:pointer;">
+            <img src="img/carousel-2.jpg" alt="Second slide">
+        </div>
+        <div class="item" onclick="window.location.href='project.html'" style="cursor:pointer;">
+            <img src="img/carousel-3.jpg" alt="Third slide">
+        </div>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div><!-- /.carousel -->
+
+
+<div class="container marketing">
+
+    <!-- 优选项目展示位 -->
+    <div class="row">
+        <div class="col-lg-4">
+            <img class="img-circle" src="img/p1.jpg" alt="Generic placeholder image"
+                 style="width: 140px; height: 140px;">
+            <h2>智能高清监控机器人</h2>
+            <p>可爱的造型，摄像安防远程互联的全能设计，让你随时随地守护您的家人，陪伴你的生活。</p>
+            <p><a class="btn btn-default" href="project.html" role="button">项目详情 &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <img class="img-circle" src="img/p2.jpg" alt="Generic placeholder image"
+                 style="width: 140px; height: 140px;">
+            <h2>NEOKA智能手环</h2>
+            <p>要运动更要安全，这款、名为“蝶舞”的NEOKA-V9100智能运动手环为“安全运动而生”。</p>
+            <p><a class="btn btn-default" href="project.html" role="button">项目详情 &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <img class="img-circle" src="img/p3.png" alt="Generic placeholder image"
+                 style="width: 140px; height: 140px;">
+            <h2>驱蚊扣</h2>
+            <p>随处使用的驱蚊纽扣，<br>解决夏季蚊虫问题。</p>
+            <p><a class="btn btn-default" href="project.html" role="button">项目详情 &raquo;</a></p>
+        </div>
+    </div>
+
+    <!-- 项目展示 -->
+    <div th:if="${#strings.isEmpty(portal_data)}">没有加载任何分类信息</div>
+    <div th:if="${ not #strings.isEmpty(portal_data)}">
+        <div th:each="type:${portal_data}" class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="box ui-draggable" id="mainBox">
+                        <div class="mHd" style="">
+                            <div class="path">
+                                <a href="projects.html">更多...</a>
+                            </div>
+                            <h3>
+                                <label th:text="${type.name}">这里是分类名称</label>
+                                <small style="color:#FFF;" th:text="${type.remark}">这里是分类标签</small>
+                            </h3>
+                        </div>
+
+                        <!-- 每个mBd是一个项目-->
+                        <div class="mBd" style="padding-top:10px;">
+
+                            <!-- 每个row对应着一行 -->
+                            <div class="row">
+                                <div style="text-align: center"
+                                     th:if="${#strings.isEmpty(type.portalProjectVOList)|| type.portalProjectVOList.size()==0}">
+                                    该分类下还没有项目
+                                </div>
+                                <div th:if="${not #strings.isEmpty(type.portalProjectVOList)}">
+                                    <div th:each="project : ${type.portalProjectVOList}" class="col-md-3">
+                                        <div class="thumbnail">
+                                            <!-- 项目图片 -->
+                                            <img style="width:300px;height: 200px" alt="300x200"
+                                                 th:src="${'https://'+project.headerPicturePath}"
+                                                 src="img/product-1.jpg"/>
+                                            <div class="caption">
+                                                <h3 class="break">
+                                                    <!-- 点击项目名称根据链接跳转到项目详情的页面 -->
+                                                    <a th:href="@{http://localhost/project/get/project/detail/} + ${project.projectId}"
+                                                       href="project.html" th:text="${project.projectName}">项目名称</a>
+                                                </h3>
+                                                <p>
+                                                <div style="float:left;"><i class="glyphicon glyphicon-screenshot"
+                                                                            title="目标金额"></i> $<span
+                                                        th:text="${project.money}">20,000</span>
+                                                </div>
+                                                <div style="float:right;"><i title="截至日期"
+                                                                             class="glyphicon glyphicon-calendar"></i>
+                                                    <span th:text="${project.deployDate}">2017-20-20</span>
+                                                </div>
+                                                </p>
+                                                <br>
+                                                <div class="progress" style="margin-bottom: 4px;">
+                                                    <div class="progress-bar progress-bar-success"
+                                                         role="progressbar"
+                                                         th:aria-valuenow="${project.percentage}" aria-valuenow="40"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         th:style="'width:'+${project.percentage}+'%'"
+                                                         style="width: 40%">
+
+                                                        <span th:text="${project.percentage}?${project.percentage}+'%':0+'% '">0 </span>
+                                                    </div>
+                                                </div>
+                                                <div><span style="float:right;"><i
+                                                        class="glyphicon glyphicon-star-empty"></i></span> <span><i
+                                                        class="glyphicon glyphicon-user" title="支持人数"></i><span
+                                                        th:text="${project.supporter}"> 12345</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div id="footer">
+                    <div class="footerNav">
+                        <a rel="nofollow" href="http://www.atguigu.com">关于我们</a> | <a rel="nofollow"
+                                                                                      href="http://www.atguigu.com">服务条款</a>
+                        | <a rel="nofollow" href="http://www.atguigu.com">免责声明</a> | <a rel="nofollow"
+                                                                                        href="http://www.atguigu.com">网站地图</a>
+                        | <a rel="nofollow" href="http://www.atguigu.com">联系我们</a>
+                    </div>
+                    <div class="copyRight">
+                        Copyright ?2017-2017atguigu.com 版权所有
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.container -->
+
+<script src="script/docs.min.js"></script>
+<script src="script/back-to-top.js"></script>
+<script>
+    $(".thumbnail img").css("cursor", "pointer");
+
+    $(".thumbnail img").click(function () {
+        // 点击图片跳转到该项目的详情页面
+        var url = $(this).next().children().find("a").attr("href");
+        window.location.href = url;
+    });
+</script>
+</body>
+</html>

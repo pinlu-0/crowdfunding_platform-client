@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 抽取公共的认证状态 -->
+<div class="row" th:fragment="authStatus">
+    <div class="col-md-12">
+        <div class="thumbnail" style="    border-radius: 0px;">
+            <img src="img/services-box1.jpg" class="img-thumbnail" alt="">
+            <div class="caption" style="text-align:center;">
+                <h3>
+                    [[${session.member.username}]]
+                </h3>
+                <span th:if="${session.member.authstatus==0}" class="label label-danger"
+                      style="cursor:pointer;" onclick="window.location.href='fg/auth/to/select/account.html'">未实名认证</span>
+                <span th:if="${session.member.authstatus==1}" class="label label-danger"style="cursor:pointer;">审核中</span>
+                <span th:if="${session.member.authstatus==2}" class="label label-danger"style="cursor:pointer;">已实名认证</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--  抽取资产总览与我的众筹 -->
+<div class="list-group" th:fragment="synopsisAndcrow(active)">
+    <div class="list-group-item " th:class="${active=='d'?'list-group-item active' :'list-group-item'}" onclick="window.location.href='/fg/auth/to/center/page.html'">
+        资产总览<span class="badge"><i class="glyphicon glyphicon-chevron-right"></i></span>
+    </div>
+    <div class="list-group-item " th:class="${active=='c'?'list-group-item active' :'list-group-item'}" style="cursor:pointer;"
+         onclick="window.location.href='/fg/auth/to/my/crowd/page.html'">
+        我的众筹<span class="badge"><i class="glyphicon glyphicon-chevron-right"></i></span>
+    </div>
+</div>

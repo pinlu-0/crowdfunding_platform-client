@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 引入公共头部 -->
+<head th:replace="common/js_file :: head(~{::title})"></head>
+
+<link rel="stylesheet" href="css/theme.css">
+<title>账户选择</title>
+
+<!-- 引入公共css样式 -->
+<style th:replace="common/css_file :: style"></style>
+
+<!-- 本页面自己的样式 -->
+<style>
+    .seltype {
+        position: absolute;
+        margin-top: 70px;
+        margin-left: 10px;
+        color: red;
+    }
+</style>
+
+
+<body>
+
+<!-- 引入会员中心的navbar -->
+<div th:replace="common/navbar :: membercenternavbar"></div>
+
+<div class="container theme-showcase" role="main">
+
+    <div class="page-header">
+        <h1>实名认证 - 账户类型选择</h1>
+    </div>
+    <div style="padding-top:10px;">
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <h2>商业公司</h2>
+                <a href="javascript:void(0);" acct_type="0" class="thumbnail">
+                    <img alt="100%x180" src="img/services-box1.jpg" data-holder-rendered="true"
+                         style="height: 180px; width: 100%; display: block;">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h2>个体工商户</h2>
+                <a href="javascript:void(0);" acct_type="1" class="thumbnail">
+                    <img alt="100%x180" src="img/services-box2.jpg" data-holder-rendered="true"
+                         style="height: 180px; width: 100%; display: block;">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h2>个人经营</h2>
+                <a href="javascript:void(0);" acct_type="2" class="thumbnail">
+                    <img alt="100%x180" src="img/services-box3.jpg" data-holder-rendered="true"
+                         style="height: 180px; width: 100%; display: block;">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h2>政府及非营利组织</h2>
+                <a href="javascript:void(0);" acct_type="3" class="thumbnail">
+                    <img alt="100%x180" src="img/services-box4.jpg" data-holder-rendered="true"
+                         style="height: 180px; width: 100%; display: block;">
+                </a>
+            </div>
+        </div>
+        <button id="applyBtn" type="button" class="btn btn-danger btn-lg btn-block"
+                url="check/account/type.html">认证申请
+        </button>
+    </div>
+
+    <!-- footer -->
+    <div th:replace="common/footer :: footer"></div>
+
+</div>
+</body>
+
+<script src="script/docs.min.js"></script>
+<script>
+
+
+    /* 选择账户类型的标志 */
+    $(".thumbnail").click(function () {
+        $('.seltype').remove();
+        $(this).prepend('<div class="glyphicon glyphicon-ok seltype"></div>');
+    });
+
+    /* 认证申请按钮点击事件 */
+    $("#applyBtn").click(function () {
+        // 获取账户类型的a标签元素
+        var aEle = $(".seltype").parents("a");
+        // 如果获取到了
+        if (aEle.length == 1) {
+            // 就让申请按钮中的url属性追加上accttype
+            var url = $(this).attr("url")+"?accttype="+aEle.attr("acct_type");
+            location.href=url;
+        } else {
+            layer.msg("请选择账户类型");
+            return false;
+        }
+    });
+
+    /* 主函数 */
+    $(function () {
+
+    });
+</script>
+</html>

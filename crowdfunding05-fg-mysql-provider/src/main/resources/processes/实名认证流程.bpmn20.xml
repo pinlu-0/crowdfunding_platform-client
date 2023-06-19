@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="realNameProcess" name="实名认证流程" isExecutable="true">
+    <startEvent id="startEvent" name="流程开始"/>
+    <serviceTask activiti:type="mail" id="sendEmailToUser" name="发送验证码给用户">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:expression>${userEmail}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string>15660129782@163.com</activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string>实名认证验证码</activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:expression>&lt;h1&gt;您好！${userName}，您的验证码是：${code}&lt;/h1&gt;</activiti:expression>
+        </activiti:field>
+        <activiti:field name="charset">
+          <activiti:string>utf-8</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-15e8f27c-68ca-427b-8b51-7356f204abd7" sourceRef="startEvent" targetRef="sendEmailToUser"/>
+    <userTask id="submitAndConfirmCode" name="提交验证和确认验证码"/>
+    <sequenceFlow id="sid-2c1774b2-a392-43ce-af6b-4295bb202af0" sourceRef="sendEmailToUser" targetRef="submitAndConfirmCode"/>
+    <exclusiveGateway id="codeCondition"/>
+    <sequenceFlow id="codeCorrect" sourceRef="submitAndConfirmCode" targetRef="codeCondition" name="验证码正确">
+      <conditionExpression>${usercode == code}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="codeError" sourceRef="codeCondition" targetRef="submitAndConfirmCode" name="验证码错误，用户重新输入">
+      <conditionExpression>${usercode != code}</conditionExpression>
+    </sequenceFlow>
+    <userTask id="check" name="人工审核"/>
+    <sequenceFlow id="sid-b107fdf9-123b-4b78-bfb6-aace6cc9f93d" sourceRef="codeCondition" targetRef="check">
+      <conditionExpression xsi:type="tFormalExpression"/>
+    </sequenceFlow>
+    <endEvent id="sid-e6314451-3050-478e-9cdc-c2b112ea3463"/>
+    <sequenceFlow id="sid-b4ff37ad-f1d0-4c72-a52e-61b588a95b9b" sourceRef="check" targetRef="sid-e6314451-3050-478e-9cdc-c2b112ea3463"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_实名认证流程">
+    <bpmndi:BPMNPlane bpmnElement="realNameProcess" id="BPMNPlane_实名认证流程">
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-ad1681eb-12b3-4806-8deb-56b0e9d0b264" bpmnElement="startEvent">
+        <omgdc:Bounds x="-429.25" y="-17.75" width="30.0" height="30.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-39eed936-f06f-4777-b8c6-250cbafebcf4" bpmnElement="sendEmailToUser">
+        <omgdc:Bounds x="-366.75" y="-42.75" width="100.0" height="80.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-76054b55-b5ed-45ea-9383-0f3dff5f1a86" bpmnElement="sid-15e8f27c-68ca-427b-8b51-7356f204abd7">
+        <omgdi:waypoint x="-399.25" y="-2.75"/>
+        <omgdi:waypoint x="-366.75" y="-2.75"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-373d5131-62af-4272-8a42-2924baa99cc5" bpmnElement="submitAndConfirmCode">
+        <omgdc:Bounds x="-220.625" y="-42.75" width="100.0" height="80.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-1c90bbbf-2900-4e35-83fb-db6387648691" bpmnElement="sid-2c1774b2-a392-43ce-af6b-4295bb202af0">
+        <omgdi:waypoint x="-266.75" y="-2.75"/>
+        <omgdi:waypoint x="-220.625" y="-2.75"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-7825114a-6846-46ec-b3d2-107b661062d5" bpmnElement="codeCondition">
+        <omgdc:Bounds x="-78.625" y="-22.75" width="40.0" height="40.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-e1ec7267-4384-4f56-bfe7-7ba4816814c1" bpmnElement="codeCorrect">
+        <omgdi:waypoint x="-120.625" y="-2.75"/>
+        <omgdi:waypoint x="-78.625" y="-2.75"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-983f2345-d1cf-4d01-a23c-bb4fd2210b66" bpmnElement="codeError">
+        <omgdi:waypoint x="-58.625" y="-22.75"/>
+        <omgdi:waypoint x="-120.625" y="-22.75"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-38af111b-3345-40e7-ad91-215506eed73d" bpmnElement="check">
+        <omgdc:Bounds x="7.375" y="-42.75" width="100.0" height="80.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-a16c706c-3123-48d2-b5cf-38e5148deb51" bpmnElement="sid-b107fdf9-123b-4b78-bfb6-aace6cc9f93d">
+        <omgdi:waypoint x="-38.625" y="-2.75"/>
+        <omgdi:waypoint x="7.375" y="-2.75"/>
+      </bpmdi:BPMNEdge>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-c51ecb02-e9a4-41a4-a8ab-275b92bde96b" bpmnElement="sid-e6314451-3050-478e-9cdc-c2b112ea3463">
+        <omgdc:Bounds x="169.875" y="-17.75" width="30.0" height="30.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-b28c179c-656f-43ae-bffe-4e6836d01401" bpmnElement="sid-b4ff37ad-f1d0-4c72-a52e-61b588a95b9b">
+        <omgdi:waypoint x="107.375" y="-2.75"/>
+        <omgdi:waypoint x="169.875" y="-2.75"/>
+      </bpmdi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
